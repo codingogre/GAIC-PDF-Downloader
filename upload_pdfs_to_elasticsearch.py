@@ -82,7 +82,7 @@ def create_ingest_pipeline(client):
 
 
 def create_index_with_mapping(client):
-    """Create index with mapping including copy_to field for semantic_text."""
+    """Create index with mapping loaded from mapping.json file."""
 
     # Delete index if it exists (for clean slate)
     if client.indices.exists(index=INDEX_NAME):
@@ -94,73 +94,30 @@ def create_index_with_mapping(client):
             print(f"! Using existing index: {INDEX_NAME}")
             return
 
-    mapping = {
-        "settings": {
-            "index.default_pipeline": PIPELINE_NAME
-        },
-        "mappings": {
-            "properties": {
-                "filename": {
-                    "type": "keyword"
-                },
-                "file_path": {
-                    "type": "text"
-                },
-                "file_size": {
-                    "type": "long"
-                },
-                "upload_timestamp": {
-                    "type": "date"
-                },
-                "attachment": {
-                    "properties": {
-                        "content": {
-                            "type": "text",
-                            "copy_to": "semantic_content"
-                        },
-                        "title": {
-                            "type": "text"
-                        },
-                        "name": {
-                            "type": "text"
-                        },
-                        "author": {
-                            "type": "text"
-                        },
-                        "keywords": {
-                            "type": "text"
-                        },
-                        "date": {
-                            "type": "date"
-                        },
-                        "content_type": {
-                            "type": "keyword"
-                        },
-                        "content_length": {
-                            "type": "long"
-                        },
-                        "language": {
-                            "type": "keyword"
-                        }
-                    }
-                },
-                "semantic_content": {
-                    "type": "semantic_text",
-                    "inference_id": ".elser-2-elastic"
-                }
-            }
-        }
+    # Load mapping from mapping.json file
+    mapping_file = Path("mapping.json")
+    if not mapping_file.exists():
+        raise FileNotFoundError(f"Mapping file not found: {mapping_file}")
+
+    with open(mapping_file, 'r') as f:
+        mapping_config = json.load(f)
+
+    print(f"✓ Loaded mapping from {mapping_file}")
+
+    # Add settings for the default pipeline
+    settings = {
+        "index.default_pipeline": PIPELINE_NAME
     }
 
     try:
         client.indices.create(
             index=INDEX_NAME,
-            settings=mapping["settings"],
-            mappings=mapping["mappings"]
+            settings=settings,
+            mappings=mapping_config["mappings"]
         )
         print(f"✓ Created index: {INDEX_NAME}")
         print(f"  - Default pipeline: {PIPELINE_NAME}")
-        print(f"  - Mapping includes copy_to field: attachment.content -> semantic_content")
+        print(f"  - Mapping loaded from mapping.json")
     except Exception as e:
         print(f"✗ Error creating index: {e}")
         raise

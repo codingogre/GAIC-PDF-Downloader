@@ -1,0 +1,105 @@
+{
+  "mappings": {
+    "properties": {
+      "attachment": {
+        "properties": {
+          "author": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "content": {
+            "type": "text",
+            "copy_to": [
+              "semantic_content"
+            ]
+          },
+          "content_length": {
+            "type": "long"
+          },
+          "content_type": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "creator_tool": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "date": {
+            "type": "date"
+          },
+          "description": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "format": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "keywords": {
+            "type": "text"
+          },
+          "language": {
+            "type": "keyword"
+          },
+          "metadata_date": {
+            "type": "date"
+          },
+          "modified": {
+            "type": "date"
+          },
+          "name": {
+            "type": "text"
+          },
+          "title": {
+            "type": "text"
+          }
+        }
+      },
+      "file_path": {
+        "type": "text"
+      },
+      "file_size": {
+        "type": "long"
+      },
+      "filename": {
+        "type": "keyword"
+      },
+      "semantic_content": {
+        "type": "semantic_text",
+        "inference_id": ".elser-2-elastic",
+        "model_settings": {
+          "service": "elastic",
+          "task_type": "sparse_embedding"
+        }
+      },
+      "upload_timestamp": {
+        "type": "date"
+      }
+    }
+  }
+}
