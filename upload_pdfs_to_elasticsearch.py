@@ -16,10 +16,14 @@ from pathlib import Path
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import streaming_bulk
 import hashlib
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Elasticsearch configuration
-ES_URL = "https://insurance-f41a6d.es.eastus.azure.elastic.cloud"
-API_KEY = "Q0o5WDZKa0I3VkdwRUNqTEd4YlY6YmxNNUNUMnZfdy16Y3htcEZjYVVXQQ=="
+ES_URL = os.getenv("ES_URL")
+API_KEY = os.getenv("API_KEY")
 INDEX_NAME = "great-american-insurance-pdfs"
 PIPELINE_NAME = "pdf-attachment-pipeline"
 PDF_FOLDER = "great_american_pdfs"
