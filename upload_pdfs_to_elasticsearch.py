@@ -24,7 +24,7 @@ load_dotenv()
 # Elasticsearch configuration
 ES_URL = os.getenv("ES_URL")
 API_KEY = os.getenv("API_KEY")
-INDEX_NAME = "great-american-insurance-pdfs"
+INDEX_NAME = os.getenv("INDEX_NAME", "medtronic-pdfs")
 PIPELINE_NAME = "pdf-attachment-pipeline"
 PDF_FOLDER = os.getenv("OUTPUT_DIR", "downloaded_pdfs")
 
