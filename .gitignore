@@ -28,7 +28,7 @@ downloaded_pdfs/
 venv/
 env/
 ENV/
-.venv
+.venv/
 
 # IDEs
 .vscode/
