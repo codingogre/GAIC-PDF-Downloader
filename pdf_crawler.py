@@ -4,6 +4,10 @@ from urllib.parse import urljoin, urlparse
 import os
 import time
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class PDFCrawler:
     def __init__(self, base_url, output_dir="downloaded_pdfs"):
@@ -117,11 +121,11 @@ class PDFCrawler:
         print(f"{'='*60}")
 
 if __name__ == "__main__":
-    # Configuration
-    BASE_URL = "https://www.greatamericaninsurancegroup.com/"
-    OUTPUT_DIR = "great_american_pdfs"
-    MAX_DEPTH = 3  # Adjust based on website structure
-    
+    # Configuration from environment variables
+    BASE_URL = os.getenv("BASE_URL", "https://www.greatamericaninsurancegroup.com/")
+    OUTPUT_DIR = os.getenv("OUTPUT_DIR", "downloaded_pdfs")
+    MAX_DEPTH = int(os.getenv("MAX_DEPTH", "3"))
+
     # Create and run crawler
     crawler = PDFCrawler(BASE_URL, OUTPUT_DIR)
     crawler.start(max_depth=MAX_DEPTH)

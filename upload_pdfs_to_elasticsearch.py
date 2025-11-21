@@ -26,7 +26,7 @@ ES_URL = os.getenv("ES_URL")
 API_KEY = os.getenv("API_KEY")
 INDEX_NAME = "great-american-insurance-pdfs"
 PIPELINE_NAME = "pdf-attachment-pipeline"
-PDF_FOLDER = "great_american_pdfs"
+PDF_FOLDER = os.getenv("OUTPUT_DIR", "downloaded_pdfs")
 
 
 def create_es_client():
